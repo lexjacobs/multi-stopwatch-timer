@@ -1,0 +1,30 @@
+{
+  "name": "multi-stopwatch-timer",
+  "version": "0.0.1-alpha",
+  "description": "A utility that lets you start and stop multiple keyed timers, and perform calculations via callback functions.",
+  "files": ["index.js"],
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lexjacobs/multi-stopwatch-timer.git"
+  },
+  "keywords": [
+    "timer",
+    "stopwatch",
+    "logging",
+    "benchmark",
+    "profile",
+    "lap",
+    "split",
+    "callback"
+  ],
+  "author": "Alex Jacobs",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lexjacobs/multi-stopwatch-timer/issues"
+  },
+  "homepage": "https://github.com/lexjacobs/multi-stopwatch-timer#readme"
+}
