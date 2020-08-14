@@ -2,10 +2,13 @@
   "name": "multi-stopwatch-timer",
   "version": "0.0.1-alpha",
   "description": "A utility that lets you start and stop multiple keyed timers, and perform calculations via callback functions.",
-  "files": ["index.js"],
+  "files": [
+    "index.js"
+  ],
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "ava",
+    "test:watch": "ava -w"
   },
   "repository": {
     "type": "git",
@@ -26,5 +29,8 @@
   "bugs": {
     "url": "https://github.com/lexjacobs/multi-stopwatch-timer/issues"
   },
-  "homepage": "https://github.com/lexjacobs/multi-stopwatch-timer#readme"
+  "homepage": "https://github.com/lexjacobs/multi-stopwatch-timer#readme",
+  "devDependencies": {
+    "ava": "^3.11.1"
+  }
 }
