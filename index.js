@@ -22,7 +22,7 @@ Stopwatch.prototype.getCurrentTimers = function() {
 };
 Stopwatch.prototype.makeTimerObject = function() {
   return {
-    recordedTimes: [],
+    times: [],
   };
 };
 
@@ -44,15 +44,15 @@ Stopwatch.prototype.markTime = function(name, timestamp) {
     this.createTimer(name);
   }
 
-  // push the timestamp (supplied, or generated) into the recordedTimes array
-  var recordedTimes = this.currentTimers[name].recordedTimes;
-  recordedTimes.push(timestamp);
+  // push the timestamp (supplied, or generated) into the times array
+  this.currentTimers[name].times.push(timestamp);
 
   // return the time elapsed since the last recordedTime, or null if it's the first entry
-  if (recordedTimes.length === 1) {
+  var times = this.currentTimers[name].times;
+  if (times.length === 1) {
     return null;
   } else {
-    return timestamp - recordedTimes[recordedTimes.length - 1];
+    return timestamp - times[times.length - 2];
   }
 };
 
