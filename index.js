@@ -13,6 +13,12 @@ Stopwatch.prototype.createTimer = function(name) {
   this.currentTimers[name] = this.makeTimerObject();
 };
 
+Stopwatch.prototype.eachTimer = function(cb) {
+  for (var timer in this.currentTimers) {
+    cb(this.currentTimers[timer].times, timer, this.currentTimers);
+  }
+};
+
 Stopwatch.prototype.getArchivedTimers = function() {
   return this.timerArchive;
 };

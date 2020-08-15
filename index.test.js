@@ -111,3 +111,14 @@ test('all current timer names can be retrieved', t => {
   t.truthy(actual.includes('card'));
 });
 
+test('a callback function can be applied to eachTimer', t => {
+  var sw = new Stopwatch();
+  sw.markTime('banana', 100);
+  sw.markTime('banana', 200);
+  var allT = sw.getCurrentTimers();
+  sw.eachTimer((times, name, allTimers) => {
+    t.deepEqual(times, [100, 200]);
+    t.deepEqual(name, 'banana');
+    t.deepEqual(allTimers, allT);
+  });
+});
