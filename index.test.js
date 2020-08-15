@@ -74,35 +74,27 @@ test('timers can be archived and retrieved', t => {
   sw.markTime('planet', 0);
   sw.markTime('star', 4);
   sw.markTime('planet', 1);
+  var current1 = sw.getCurrentTimers();
   sw.archive();
   sw.markTime('star1', 4);
   sw.markTime('planet1', 1);
   sw.markTime('star1', 8);
   sw.markTime('planet1', 2);
+  var current2 = sw.getCurrentTimers();
   sw.archive();
   sw.markTime('star2', 8);
   sw.markTime('planet2', 2);
   sw.markTime('star2', 16);
   sw.markTime('planet2', 4);
+  var current3 = sw.getCurrentTimers();
+  sw.archive();
 
-  var current = sw.getCurrentTimers();
   var archived1 = sw.getArchivedTimers()[0];
   var archived2 = sw.getArchivedTimers()[1];
-  t.deepEqual(current, {star2: {times:[8, 16]}, planet2: {times: [2, 4]}});
-  t.deepEqual(archived1, {star: {times:[2, 4]}, planet: {times: [0, 1]}});
-  t.deepEqual(archived2, {star1: {times:[4, 8]}, planet1: {times: [1, 2]}});
-  var currentKeys = Object.keys(current);
-  var archivedKeys1 = Object.keys(archived1);
-  var archivedKeys2 = Object.keys(archived2);
-  t.is(currentKeys.length, 2);
-  t.is(archivedKeys1.length, 2);
-  t.is(archivedKeys2.length, 2);
-  t.truthy(archivedKeys1.includes('star'));
-  t.truthy(archivedKeys1.includes('planet'));
-  t.truthy(archivedKeys2.includes('star1'));
-  t.truthy(archivedKeys2.includes('planet1'));
-  t.truthy(currentKeys.includes('star2'));
-  t.truthy(currentKeys.includes('planet2'));
+  var archived3 = sw.getArchivedTimers()[2];
+  t.deepEqual(current1, archived1);
+  t.deepEqual(current2, archived2);
+  t.deepEqual(current3, archived3);
 });
 
 test('all current timer names can be retrieved', t => {
