@@ -105,3 +105,17 @@ test('timers can be archived and retrieved', t => {
   t.truthy(currentKeys.includes('planet2'));
 });
 
+test('all current timer names can be retrieved', t => {
+  var sw = new Stopwatch();
+  var actual = sw.getCurrentNames();
+  t.deepEqual(actual, []);
+  sw.markTime('arrow');
+  sw.markTime('banana');
+  sw.markTime('card');
+  actual = sw.getCurrentNames();
+  t.is(actual.length, 3);
+  t.truthy(actual.includes('arrow'));
+  t.truthy(actual.includes('banana'));
+  t.truthy(actual.includes('card'));
+});
+

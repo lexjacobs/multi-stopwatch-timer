@@ -17,9 +17,14 @@ Stopwatch.prototype.getArchivedTimers = function() {
   return this.timerArchive;
 };
 
+Stopwatch.prototype.getCurrentNames = function() {
+  return Object.keys(this.getCurrentTimers());
+};
+
 Stopwatch.prototype.getCurrentTimers = function() {
   return this.currentTimers;
 };
+
 Stopwatch.prototype.makeTimerObject = function() {
   return {
     times: [],
