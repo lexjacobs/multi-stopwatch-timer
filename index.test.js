@@ -111,6 +111,39 @@ test('all current timer names can be retrieved', t => {
   t.truthy(actual.includes('card'));
 });
 
+test('started and last methods will return the first/last values of a timer\'s times array', t => {
+  var sw = new Stopwatch();
+  sw.markTime('arrow', 142);
+  sw.markTime('arrow', 150);
+  sw.markTime('arrow', 190);
+  sw.markTime('arrow', 212);
+  sw.markTime('arrow', 242);
+  t.is(sw.started('arrow'), 142);
+  t.is(sw.last('arrow'), 242);
+  t.throws(() => {
+    sw.started('albert');
+  },{ message: 'no timer with this name exists' });
+  t.throws(() => {
+    sw.last('albert');
+  },{ message: 'no timer with this name exists' });
+});
+
+test('last method will return the started time if only 1 time has been marked', t => {
+  var sw = new Stopwatch();
+  sw.markTime('qbert', 138);
+  t.is(sw.started('qbert'), 138);
+  t.is(sw.last('qbert'), 138);
+});
+
+test('a getFirst and getLast utility exists', t => {
+  var sw = new Stopwatch();
+  var times = [1, 2, 3, 4, 5];
+  var actual = sw.getFirst(times);
+  t.is(actual, 1);
+  actual = sw.getLast(times);
+  t.is(actual, 5);
+});
+
 test('a callback function can be applied to eachTimer', t => {
   var sw = new Stopwatch();
   sw.markTime('banana', 100);
@@ -122,3 +155,4 @@ test('a callback function can be applied to eachTimer', t => {
     t.deepEqual(allTimers, allT);
   });
 });
+

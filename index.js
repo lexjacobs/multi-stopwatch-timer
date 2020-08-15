@@ -31,6 +31,14 @@ Stopwatch.prototype.getCurrentTimers = function() {
   return this.currentTimers;
 };
 
+Stopwatch.prototype.getFirst = function(arr) {
+  return arr[0];
+};
+
+Stopwatch.prototype.getLast = function(arr) {
+  return arr[arr.length - 1];
+};
+
 Stopwatch.prototype.makeTimerObject = function() {
   return {
     times: [],
@@ -65,6 +73,22 @@ Stopwatch.prototype.markTime = function(name, timestamp) {
   } else {
     return timestamp - times[times.length - 2];
   }
+};
+
+Stopwatch.prototype.started = function(name) {
+  if (!this.timerExists(name)) {
+    throw new Error('no timer with this name exists');
+  }
+  var times = this.currentTimers[name].times;
+  return this.getFirst.call(this, times);
+};
+
+Stopwatch.prototype.last = function(name) {
+  if (!this.timerExists(name)) {
+    throw new Error('no timer with this name exists');
+  }
+  var times = this.currentTimers[name].times;
+  return this.getLast.call(this, times);
 };
 
 Stopwatch.prototype.timerExists = function(name) {
