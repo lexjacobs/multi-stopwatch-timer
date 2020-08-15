@@ -147,12 +147,24 @@ test('a getFirst and getLast utility exists', t => {
 test('a callback function can be applied to eachTimer', t => {
   var sw = new Stopwatch();
   sw.markTime('banana', 100);
+  sw.markTime('banana', 150);
   sw.markTime('banana', 200);
   var allT = sw.getCurrentTimers();
   sw.eachTimer((times, name, allTimers) => {
-    t.deepEqual(times, [100, 200]);
+    t.deepEqual(times, [100, 150, 200]);
     t.deepEqual(name, 'banana');
     t.deepEqual(allTimers, allT);
+  });
+  sw.markTime('carbon', 110);
+  sw.markTime('carbon', 250);
+  sw.markTime('carbon', 350);
+  sw.eachTimer((times, name) => {
+    if (name === 'banana') {
+      t.is(sw.started(name), 100);
+    }
+    if (name === 'carbon') {
+      t.is(sw.started(name), 110);
+    }
   });
 });
 
