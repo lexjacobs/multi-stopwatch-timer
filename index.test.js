@@ -3,14 +3,21 @@ const Stopwatch = require('./index');
 
 test.serial('a timer is started with markTime and a name', t => {
   var sw = new Stopwatch();
-  t.deepEqual(sw.getCurrentTimers(), {});
+  var expected = {
+    name: null,
+    timers: {}
+  };
+  t.deepEqual(expected, sw.getCurrentTimers());
   sw.markTime('fizzy');
-  t.notDeepEqual(sw.getCurrentTimers(), {});
+  t.notDeepEqual(expected, sw.getCurrentTimers());
 });
 
 test.serial('a new stopwatch instance with fresh currentTimers object is created with a new invocation', t => {
   var sw = new Stopwatch();
-  t.deepEqual(sw.getCurrentTimers(), {});
+  t.deepEqual(sw.getCurrentTimers(), {
+    name: null,
+    timers: {}
+  });
 });
 
 test('a timer requires a name', t => {
@@ -22,18 +29,24 @@ test('a timer requires a name', t => {
 
 test('a stopwatch accepts a name and returns the elapsed time when supplying the same name', t => {
   var sw = new Stopwatch();
-  t.deepEqual(sw.getCurrentTimers(), {});
+  t.deepEqual(sw.getCurrentTimers(), {
+    name: null,
+    timers: {}
+  });
   sw.markTime('frog');
   var actual = sw.markTime('frog');
   t.true(actual >= 0);
 });
 
 test('a stopwatch will record laps when using `markTime` again', t => {
-  var sw = new Stopwatch();
-  t.deepEqual(sw.getCurrentTimers(), {});
+  var sw = new Stopwatch('ripe');
+  t.deepEqual(sw.getCurrentTimers(), {
+    name: 'ripe',
+    timers: {}
+  });
   sw.markTime('frog');
   sw.markTime('frog');
-  t.not(sw.getCurrentTimers().frog.times.length, 0);
+  t.not(sw.getCurrentTimers().timers.frog.times.length, 0);
 });
 
 test('timerExists determines if a named timer exists', t => {
@@ -62,7 +75,7 @@ test('multiple timers can be tracked', t => {
   sw.markTime('planet', 1);
   sw.markTime('star', 8);
   sw.markTime('planet', 2);
-  var actual = Object.keys(sw.getCurrentTimers());
+  var actual = Object.keys(sw.getCurrentTimersTimers());
   t.is(actual.length, 2);
   t.truthy(actual.includes('star'));
   t.truthy(actual.includes('planet'));
@@ -89,9 +102,9 @@ test('timers can be archived and retrieved', t => {
   var current3 = sw.getCurrentTimers();
   sw.archive();
 
-  var archived1 = sw.getArchivedTimers()[0];
-  var archived2 = sw.getArchivedTimers()[1];
-  var archived3 = sw.getArchivedTimers()[2];
+  var archived1 = sw.getTimerArchive()[0];
+  var archived2 = sw.getTimerArchive()[1];
+  var archived3 = sw.getTimerArchive()[2];
   t.deepEqual(current1, archived1);
   t.deepEqual(current2, archived2);
   t.deepEqual(current3, archived3);
@@ -149,7 +162,7 @@ test('a callback function can be applied to eachTimer', t => {
   sw.markTime('banana', 100);
   sw.markTime('banana', 150);
   sw.markTime('banana', 200);
-  var allT = sw.getCurrentTimers();
+  var allT = sw.getCurrentTimersTimers();
   sw.eachTimer((times, name, allTimers) => {
     t.deepEqual(times, [100, 150, 200]);
     t.deepEqual(name, 'banana');
@@ -161,9 +174,11 @@ test('a callback function can be applied to eachTimer', t => {
   sw.eachTimer((times, name) => {
     if (name === 'banana') {
       t.is(sw.started(name), 100);
+      t.is(sw.last(name), 200);
     }
     if (name === 'carbon') {
       t.is(sw.started(name), 110);
+      t.is(sw.last(name), 350);
     }
   });
 });
