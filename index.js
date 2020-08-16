@@ -50,7 +50,13 @@ Stopwatch.prototype.createNewTimersObject = function(name) {
 };
 
 Stopwatch.prototype.createSingleTimer = function(name) {
-  this.getCurrentTimersTimers()[name] = this.makeTimerObject(name);
+  this.getCurrentTimersTimers()[name] = this.createTimerObject(name);
+};
+
+Stopwatch.prototype.createTimerObject = function() {
+  return {
+    times: [],
+  };
 };
 
 Stopwatch.prototype.eachTimer = function(cb) {
@@ -60,20 +66,16 @@ Stopwatch.prototype.eachTimer = function(cb) {
   }
 };
 
-Stopwatch.prototype.getTimerArchive = function() {
-  return this.timerArchive;
-};
-
 Stopwatch.prototype.getCurrentNames = function() {
   return Object.keys(this.getCurrentTimersTimers());
 };
 
 Stopwatch.prototype.getCurrentTimers = function() {
-  return this.getLast(this.timerArchive);
+  return this.getLastItem(this.timerArchive);
 };
 
 Stopwatch.prototype.getCurrentTimersTimers = function(name) {
-  var currentTimersTimers = this.getLast(this.timerArchive);
+  var currentTimersTimers = this.getLastItem(this.timerArchive);
   if (name !== undefined) {
     return currentTimersTimers.timers[name];
   } else {
@@ -81,18 +83,16 @@ Stopwatch.prototype.getCurrentTimersTimers = function(name) {
   }
 };
 
-Stopwatch.prototype.getFirst = function(arr) {
+Stopwatch.prototype.getFirstItem = function(arr) {
   return arr[0];
 };
 
-Stopwatch.prototype.getLast = function(arr) {
+Stopwatch.prototype.getLastItem = function(arr) {
   return arr[arr.length - 1];
 };
 
-Stopwatch.prototype.makeTimerObject = function() {
-  return {
-    times: [],
-  };
+Stopwatch.prototype.getTimerArchive = function() {
+  return this.timerArchive;
 };
 
 Stopwatch.prototype.markTime = function(name, timestamp) {
@@ -125,24 +125,24 @@ Stopwatch.prototype.markTime = function(name, timestamp) {
   }
 };
 
-Stopwatch.prototype.started = function(name) {
-  if (!this.timerExists(name)) {
-    throw new Error('no timer with this name exists');
-  }
-  var times = this.getCurrentTimersTimers(name).times;
-  return this.getFirst.call(this, times);
-};
-
-Stopwatch.prototype.last = function(name) {
-  if (!this.timerExists(name)) {
-    throw new Error('no timer with this name exists');
-  }
-  var times = this.getCurrentTimersTimers(name).times;
-  return this.getLast.call(this, times);
-};
-
 Stopwatch.prototype.timerExists = function(name) {
   return this.getCurrentTimersTimers(name) !== undefined;
+};
+
+Stopwatch.prototype.timeLast = function(name) {
+  if (!this.timerExists(name)) {
+    throw new Error('no timer with this name exists');
+  }
+  var times = this.getCurrentTimersTimers(name).times;
+  return this.getLastItem.call(this, times);
+};
+
+Stopwatch.prototype.timeStarted = function(name) {
+  if (!this.timerExists(name)) {
+    throw new Error('no timer with this name exists');
+  }
+  var times = this.getCurrentTimersTimers(name).times;
+  return this.getFirstItem.call(this, times);
 };
 
 module.exports = Stopwatch;

@@ -124,36 +124,36 @@ test('all current timer names can be retrieved', t => {
   t.truthy(actual.includes('card'));
 });
 
-test('started and last methods will return the first/last values of a timer\'s times array', t => {
+test('timeStarted and timeLast methods will return the first/last values of a timer\'s times array', t => {
   var sw = new Stopwatch();
   sw.markTime('arrow', 142);
   sw.markTime('arrow', 150);
   sw.markTime('arrow', 190);
   sw.markTime('arrow', 212);
   sw.markTime('arrow', 242);
-  t.is(sw.started('arrow'), 142);
-  t.is(sw.last('arrow'), 242);
+  t.is(sw.timeStarted('arrow'), 142);
+  t.is(sw.timeLast('arrow'), 242);
   t.throws(() => {
-    sw.started('albert');
+    sw.timeStarted('albert');
   },{ message: 'no timer with this name exists' });
   t.throws(() => {
-    sw.last('albert');
+    sw.timeLast('albert');
   },{ message: 'no timer with this name exists' });
 });
 
-test('last method will return the started time if only 1 time has been marked', t => {
+test('timeLast method will still return the first time if only 1 time has been marked', t => {
   var sw = new Stopwatch();
   sw.markTime('qbert', 138);
-  t.is(sw.started('qbert'), 138);
-  t.is(sw.last('qbert'), 138);
+  t.is(sw.timeStarted('qbert'), 138);
+  t.is(sw.timeLast('qbert'), 138);
 });
 
-test('a getFirst and getLast utility exists', t => {
+test('a getFirstItem and getLastItem utility exists', t => {
   var sw = new Stopwatch();
   var times = [1, 2, 3, 4, 5];
-  var actual = sw.getFirst(times);
+  var actual = sw.getFirstItem(times);
   t.is(actual, 1);
-  actual = sw.getLast(times);
+  actual = sw.getLastItem(times);
   t.is(actual, 5);
 });
 
@@ -173,12 +173,12 @@ test('a callback function can be applied to eachTimer', t => {
   sw.markTime('carbon', 350);
   sw.eachTimer((times, name) => {
     if (name === 'banana') {
-      t.is(sw.started(name), 100);
-      t.is(sw.last(name), 200);
+      t.is(sw.timeStarted(name), 100);
+      t.is(sw.timeLast(name), 200);
     }
     if (name === 'carbon') {
-      t.is(sw.started(name), 110);
-      t.is(sw.last(name), 350);
+      t.is(sw.timeStarted(name), 110);
+      t.is(sw.timeLast(name), 350);
     }
   });
 });
