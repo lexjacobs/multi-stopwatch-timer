@@ -183,3 +183,34 @@ test('a callback function can be applied to eachTimer', t => {
   });
 });
 
+test('createNewTimersObject makes the outer timer object with a supplied name, or null', t => {
+  var actual = Stopwatch.prototype.createNewTimersObject();
+  t.like(actual, {name: null, timers: {}});
+  actual = Stopwatch.prototype.createNewTimersObject('roberto');
+  t.like(actual, {name: 'roberto', timers: {}});
+});
+
+test('createTimerObject makes the inner single timer object as expected', t => {
+  var actual = Stopwatch.prototype.createTimerObject('boffo');
+  t.like(actual, { times: [] });
+});
+
+test('createSingleTimer adds a timer object as expected', t => {
+  var sw = new Stopwatch();
+  t.deepEqual(sw.getCurrentTimers(), {name: null, timers: {}});
+  sw.createSingleTimer('abacaba');
+  t.deepEqual(sw.getCurrentTimers(), {name: null, timers: {
+    'abacaba': {
+      times: []
+    }
+  }});
+  sw.createSingleTimer('armadillo');
+  t.deepEqual(sw.getCurrentTimers(), {name: null, timers: {
+    'abacaba': {
+      times: []
+    },
+    'armadillo': {
+      times: []
+    }
+  }});
+});
